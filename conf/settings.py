@@ -160,10 +160,6 @@ else:
 STATIC_ROOT = str(INSTALL_DIR_PATH / 'static')
 MEDIA_ROOT = str(INSTALL_DIR_PATH / 'media')
 
-# _____________________________________________________________________________
-# django-ckeditor
-
-CKEDITOR_BASEPATH = STATIC_URL + 'ckeditor/ckeditor/'
 
 # _____________________________________________________________________________
 # Django-dbbackup
@@ -175,6 +171,12 @@ DBBACKUP_STORAGE_OPTIONS['location'] = str(DATA_DIR_PATH / 'backups')
 # Set log file to e.g.: /var/log/$app/$app.log
 LOGGING['handlers']['log_file']['filename'] = str(LOG_FILE_PATH)
 
+LOGGING['loggers']['django_yunohost_integration'] = { # TODO: Move to django_yunohost_integration base settings
+    'handlers': ['syslog', 'log_file', 'mail_admins'],
+    'propagate': False,
+}
+
+# Example how to add logging to own app:
 LOGGING['loggers']['inventory'] = {
     'handlers': ['syslog', 'log_file', 'mail_admins'],
     'propagate': False,
